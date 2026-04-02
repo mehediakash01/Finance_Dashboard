@@ -37,28 +37,50 @@ export function getSummary(transactions: Transaction[]) {
 }
 
 export function getBalanceTrend(transactions: Transaction[]) {
-  const monthMap = new Map<string, { month: string; income: number; expense: number; net: number }>()
+  const monthMap = new Map<
+    string,
+    { month: string; monthStart: number; income: number; expense: number; net: number }
+  >()
 
   transactions.forEach((transaction) => {
-    const month = new Date(transaction.date).toLocaleDateString("en-US", {
+    const transactionDate = new Date(transaction.date)
+    const month = transactionDate.toLocaleDateString("en-US", {
       month: "short",
       year: "2-digit",
     })
+    const monthStart = new Date(transactionDate.getFullYear(), transactionDate.getMonth(), 1).getTime()
 
-    const current = monthMap.get(month) ?? { month, income: 0, expense: 0, net: 0 }
+    const current = monthMap.get(month) ?? {
+      month,
+      monthStart,
+      income: 0,
+      expense: 0,
+      net: 0,
+    }
 
     if (transaction.type === "income") {
       current.income += transaction.amount
-      current.net += transaction.amount
     } else {
       current.expense += transaction.amount
-      current.net -= transaction.amount
     }
 
     monthMap.set(month, current)
   })
 
+  let runningBalance = 0
+
   return [...monthMap.values()]
+    .sort((a, b) => a.monthStart - b.monthStart)
+    .map((entry) => {
+      runningBalance += entry.income - entry.expense
+
+      return {
+        month: entry.month,
+        income: entry.income,
+        expense: entry.expense,
+        net: runningBalance,
+      }
+    })
 }
 
 export function getSpendingBreakdown(transactions: Transaction[]) {
