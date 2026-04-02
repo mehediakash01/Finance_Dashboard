@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Finance Dashboard (Frontend Assignment)
 
-## Getting Started
+An interactive finance dashboard built with Next.js, TypeScript, Tailwind CSS, and shadcn/ui.
 
-First, run the development server:
+The project demonstrates:
+
+- Dashboard overview cards for balance, income, and expenses
+- Time-based chart (monthly balance trend)
+- Categorical chart (spending breakdown)
+- Transactions table with search, filter, and sorting
+- Frontend-simulated role-based UI (`viewer` and `admin`)
+- Insights panel with highest spending category and monthly comparison
+- Centralized state management via React Context
+- Responsive layout and empty-state handling
+- Local storage persistence for transactions and selected role
+
+## Tech Stack
+
+- Next.js 16 (App Router)
+- TypeScript
+- Tailwind CSS v4
+- shadcn/ui
+- Recharts
+
+## Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Start development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Project Structure
 
-## Learn More
+```text
+src/
+	app/
+		layout.tsx
+		page.tsx
+		providers.tsx
+	components/
+		finance/
+			dashboard-shell.tsx
+		ui/
+			...shadcn components
+	context/
+		finance-context.tsx
+	data/
+		mock-transactions.ts
+	lib/
+		finance-utils.ts
+	types/
+		finance.ts
+```
 
-To learn more about Next.js, take a look at the following resources:
+## How This Meets The Requirements
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Dashboard Overview
+- Summary cards: Total Balance, Income, Expenses
+- Time visualization: monthly net trend line chart
+- Category visualization: spending breakdown pie chart
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Transactions Section
+- Columns: Date, Description, Category, Type, Amount
+- Features: search, category/type filters, sorting, empty state
 
-## Deploy on Vercel
+3. Basic Role-Based UI
+- Role switcher in header
+- Viewer: read-only mode
+- Admin: can add transactions through modal form
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Insights Section
+- Highest spending category
+- Month-over-month comparison
+- Average expense + recommendation note
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. State Management
+- Context provider manages:
+	- transactions
+	- role
+	- filters
+	- derived filtered/sorted data
+
+6. UI/UX Expectations
+- Clean card-based layout
+- Responsive grid for mobile and desktop
+- Gradient atmosphere, clear typography, and subtle entry animation
+- Empty states in charts and table
+
+## Notes
+
+- Data is mocked and persisted to local storage for demo purposes.
+- No backend or authentication is required for this assignment.
